@@ -82,7 +82,7 @@ def train(epoch):
         train_label = train_sample.labels.to(DEVICE)
         all_graphs = [graph.to(DEVICE) for graph in train_sample.graph_data]
         time_steps = train_sample.window
-        adj = train_sample.adj
+        adj = None
         end = time.time()
         compute = end - start
         start = time.time()
@@ -107,7 +107,7 @@ def train(epoch):
             val_label = val_sample.labels.to(DEVICE)
             all_graphs = [graph.to(DEVICE) for graph in val_sample.graph_data]
             time_steps = val_sample.window
-            adj = val_sample.adj
+            adj = None
 
             output = model(all_graphs, val_features, time_steps, adj)
             #loss_val = F.nll_loss(output, val_label)
@@ -126,7 +126,7 @@ def train(epoch):
             test_label = test_sample.labels.to(DEVICE)
             all_graphs = [graph.to(DEVICE) for graph in test_sample.graph_data]
             time_steps = test_sample.window
-            adj = test_sample.adj
+            adj = None
 
             output = model(all_graphs, test_features, time_steps, adj)
             #loss_test = F.nll_loss(output, test_label)
@@ -289,7 +289,7 @@ with torch.no_grad():
         test_label = test_sample.labels.to(DEVICE)
         all_graphs = [graph.to(DEVICE) for graph in test_sample.graph_data]
         time_steps = test_sample.window
-        adj = test_sample.adj
+        adj = None
 
         output = best_model(all_graphs, test_features, time_steps, adj)
         loss_test = F.nll_loss(output, test_label)
