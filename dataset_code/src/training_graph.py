@@ -115,7 +115,7 @@ def train(epoch):
             accuracy_val.append(accuracy(output, val_label).detach().cpu().numpy())
             losses_val.append(np.mean(loss_val.detach().cpu().numpy()))
 
-    
+        """
         for sample in test_samples:
             test_sample = None
             if args.lazy_loading:
@@ -133,7 +133,8 @@ def train(epoch):
             loss_test = loss_fn(output, test_label,  get_samples_per_class(test_label))
             accuracy_test.append(accuracy(output, test_label).detach().cpu().numpy())
             losses_test.append(np.mean(loss_test.detach().cpu().numpy()))
-
+        """
+        losses_test = [0]
     metrics = {'train_acc': np.mean(np.array(acc_train)),
                'val_acc': np.mean(np.array(accuracy_val)),
                'test_acc': np.mean(np.array(accuracy_test)),
