@@ -267,7 +267,7 @@ for i in range(max_epochs):
         print(best_res)
         early_stopped = True
         break
-
+"""
 bestModel_path = os.path.join(checkpoint_dir, best_filename)
 checkpoint = torch.load(bestModel_path, map_location=DEVICE)
 print("Checkpoint was in epoch {}".format(checkpoint['epoch']))
@@ -378,4 +378,4 @@ res_file = os.path.join(args.result_dir, args.run_id + TIMESTAMP + ".json")
 
 with open(res_file, mode='w') as f:
     f.write(json.dumps(result_obj, indent=2))
-
+"""
