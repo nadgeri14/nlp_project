@@ -48,7 +48,7 @@ class GPS(torch.nn.Module):
         import pdb
         pdb.set_trace()
         x_pe = self.pe_norm(pe[0].pe)
-        x = torch.cat((self.node_emb(x.squeeze(-1)), self.pe_lin(x_pe)), 1)
+        x = torch.cat((self.node_emb(x.squeeze(0)), self.pe_lin(x_pe)), 1)
         #edge_attr = self.edge_emb(edge_attr)
 
         for conv in self.convs:
