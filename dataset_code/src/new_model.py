@@ -17,7 +17,7 @@ class GPS(torch.nn.Module):
                  attn_type: str, nclass: int, attn_kwargs: dict):
         super().__init__()
 
-        self.node_emb = Embedding(28, channels - pe_dim)
+        #self.node_emb = Embedding(28, channels - pe_dim)
         self.pe_lin = Linear(20, pe_dim)
         self.pe_norm = BatchNorm1d(20)
         #self.edge_emb = Embedding(4, channels)
@@ -48,7 +48,7 @@ class GPS(torch.nn.Module):
         import pdb
         pdb.set_trace()
         x_pe = self.pe_norm(pe[0].pe)
-        x = torch.cat((self.node_emb(x.squeeze(0)), self.pe_lin(x_pe)), 1)
+        x = torch.cat((x.squeeze(0), self.pe_lin(x_pe)), 1)
         #edge_attr = self.edge_emb(edge_attr)
 
         for conv in self.convs:
