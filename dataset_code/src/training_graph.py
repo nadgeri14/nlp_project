@@ -125,15 +125,15 @@ def train(epoch):
             adj = None
 
         if(args.gnn == 'gat'):
-            output = model(all_graphs, train_features, time_steps, adj)
+            output = model(all_graphs, val_features, time_steps, adj)
         elif(args.gnn == 'transformer'):
             pe = []
             transform = T.AddRandomWalkPE(walk_length=20, attr_name='pe')
             for k in range(time_steps):
-                data = Data(x=train_features[k], edge_index=all_graphs[k])
+                data = Data(x=val_features[k], edge_index=all_graphs[k])
                 pe.append(transform(data))
-            batch = torch.zeros(train_features[0].shape[0], dtype=torch.int64, device=train_features.device)
-            output = model(train_features, pe, all_graphs, time_steps, batch)
+            batch = torch.zeros(val_features[0].shape[0], dtype=torch.int64, device=val_features.device)
+            output = model(val_features, pe, all_graphs, time_steps, batch)
         else:
             raise Exception("Select right model")
             #loss_val = F.nll_loss(output, val_label)
@@ -167,7 +167,8 @@ def train(epoch):
                'train_loss': float(np.mean(np.array(losses_train))),
                'val_loss': float(np.mean(np.array(losses_val))),
                'test_loss': float(np.mean(np.array(losses_test)))}
-
+    import pdb
+    pdb.set_trace()
     print(metrics)
     return metrics
 
