@@ -51,7 +51,7 @@ class GPS(torch.nn.Module):
         pdb.set_trace()
         x_pe = self.pe_norm(pe[0].pe)
         x = torch.cat((x.squeeze(0), self.pe_lin(x_pe)), 1)
-        edge_attr = torch.ones(pe[0].num_edges, device=pe[0].device)
+        edge_attr = torch.ones(pe[0].num_edges, device=x.device)
         edge_attr = self.edge_emb(edge_attr)
         for conv in self.convs:
             x = conv(x, edge_index[0], batch)
