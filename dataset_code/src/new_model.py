@@ -20,10 +20,11 @@ class GPS(torch.nn.Module):
         #self.node_emb = Embedding(28, channels - pe_dim)
         self.pe_lin = Linear(20, pe_dim)
         self.pe_norm = BatchNorm1d(20)
-        #self.edge_emb = Embedding(4, channels)
+        channels += pe_dim
+        self.edge_emb = Embedding(4, channels)
 
         self.convs = ModuleList()
-        channels += pe_dim
+        
         for _ in range(num_layers):
             nn = Sequential(
                 Linear(channels, channels),
@@ -50,7 +51,8 @@ class GPS(torch.nn.Module):
         pdb.set_trace()
         x_pe = self.pe_norm(pe[0].pe)
         x = torch.cat((x.squeeze(0), self.pe_lin(x_pe)), 1)
-        #edge_attr = self.edge_emb(edge_attr)
+        edge_attr = torch.ones(pe[0].num_edges, device=pe[0].device)
+        edge_attr = self.edge_emb(edge_attr)
         for conv in self.convs:
             x = conv(x, edge_index[0], batch)
         x = global_add_pool(x, batch)
