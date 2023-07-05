@@ -14,7 +14,7 @@ from torch_geometric.nn.attention import PerformerAttention
 
 class GPS(torch.nn.Module):
     def __init__(self, channels: int, pe_dim: int, num_layers: int,
-                 attn_type: str, nclass: int, attn_kwargs: dict[str, Any]):
+                 attn_type: str, nclass: int, attn_kwargs: dict):
         super().__init__()
 
         #self.node_emb = Embedding(28, channels - pe_dim)
