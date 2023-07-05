@@ -14,7 +14,10 @@ class GatClassification(nn.Module):
         super(GatClassification, self).__init__()
         self.gnn_name = gnn_name
         self.nhid_graph = nhid_graph
-        self.gnn = GATConv(nfeat, nhid_graph, heads=nheads, negative_slope=0.2, concat=False, dropout=dropout)
+
+        if(self.gnn_name == 'gat'):
+            self.gnn1 = GATConv(nfeat, nfeat, heads=nheads, negative_slope=0.2, concat=False, dropout=dropout)
+            self.gnn2 = GATConv(nfeat, nhid_graph, heads=nheads, negative_slope=0.2, concat=False, dropout=dropout)
        
         self.linear_pass = nn.Linear(nhid_graph, nhid)
         
@@ -31,7 +34,7 @@ class GatClassification(nn.Module):
         for i in range(time_steps):
             x = fts[i]
             G = graph[i]
-            y = F.leaky_relu(self.gnn(x, G), 0.2)
+            y = F.leaky_relu(self.gnn2(F.leaky_relu(self.gnn1(x, G), 0.2),G))
             y_full.append(y.reshape(1, x.shape[0], self.nhid_graph))
         y = torch.cat(y_full)
     
