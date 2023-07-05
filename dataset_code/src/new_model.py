@@ -55,7 +55,6 @@ class GPS(torch.nn.Module):
         edge_attr = self.edge_emb(edge_attr)
         for conv in self.convs:
             x = conv(x, edge_index[0], batch, edge_attr=edge_attr)
-        x = global_add_pool(x, batch)
         return F.log_softmax(self.mlp(x), dim=1)
 
 
