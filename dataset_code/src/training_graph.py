@@ -97,7 +97,7 @@ def train(epoch):
             for k in range(time_steps):
                 data = Data(x=train_features[k], edge_index=all_graphs[k])
                 pe.append(transform(data))
-            batch = torch.zeros(train_features[0].shape[0], dtype=torch.int64)
+            batch = torch.zeros(train_features[0].shape[0], dtype=torch.int64, device=train_features.device)
             output = model(train_features, pe, all_graphs, time_steps, batch)
         else:
             raise Exception("Select right model")
