@@ -21,6 +21,7 @@ from utils.utils import *
 from utils.loss_fct import *
 from utils.train_utils import save_checkpoint
 from model import GatClassification
+from new_model import GPS
 from constants import *
 import sys
 
@@ -163,6 +164,7 @@ parser.add_argument("--model_seed" , dest="model_seed", type=int, default=1234)
 parser.add_argument("--comment", dest="comment", type=str, default="")
 parser.add_argument("--lazy_loading", dest="lazy_loading", type=str2bool, required=False, default=False)
 parser.add_argument("--gnn", dest="gnn", default='gat', type=str)
+parser.add_argument("--attn_type", dest="attn_type", default='multihead', type=str)
 
 
 args = parser.parse_args()
@@ -195,8 +197,12 @@ nheads = args.nheads
 print("Weight decay: {}".format(weight_decay))
 print("Learning rate: {}".format(l_r))
 
-model = GatClassification(nfeat=users_dim, nhid_graph=args.nhid_graph, nhid=args.nhid, nclass=2, dropout=dropout,
+if(gnn == 'gat'):
+    model = GatClassification(nfeat=users_dim, nhid_graph=args.nhid_graph, nhid=args.nhid, nclass=2, dropout=dropout,
                 nheads=nheads, gnn_name=args.gnn).to(DEVICE)
+elif(gnn = 'transformer'):
+    attn_kwargs = {'dropout': 0.5}
+    model = GPS(channels=users_dim, pe_dim=8, num_layers=2, attn_type=args.attn_type, nclass=2, attn_kwargs=attn_kwargs).to(DEVICE)
 
 
 optimizer = optim.Adam(model.parameters(),
