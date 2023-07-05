@@ -93,10 +93,10 @@ def train(epoch):
             output = model(all_graphs, train_features, time_steps, adj)
         elif(args.gnn == 'transformer'):
             pe = []
-            pe_embedding = T(is_undirected=True)
+            transform = T.AddRandomWalkPE(walk_length=20, attr_name='pe')
             for k in range(time_steps):
                 data = Data(x=train_features[k], edge_index=all_graphs[k])
-                pe.append[pe_embedding(data)]
+                pe.append(transform(data))
             output = model(train_features, pe, all_graphs, time_steps, batch)
         else:
             raise Exception("Select right model")
