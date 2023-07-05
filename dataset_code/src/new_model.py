@@ -7,7 +7,7 @@ from torch.nn import (
     ReLU,
     Sequential,
 )
-
+import torch.nn.functional as F
 import torch_geometric.transforms as T
 from torch_geometric.nn import GINEConv, GPSConv, global_add_pool
 from torch_geometric.nn.attention import PerformerAttention
@@ -56,7 +56,7 @@ class GPS(torch.nn.Module):
         for conv in self.convs:
             x = conv(x, edge_index[0], batch, edge_attr=edge_attr)
         x = global_add_pool(x, batch)
-        return self.mlp(x)
+        return F.log_softmax(self.mlp(x), dim=1)
 
 
 class RedrawProjection:
