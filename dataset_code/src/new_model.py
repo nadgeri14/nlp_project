@@ -17,8 +17,8 @@ class GPS(torch.nn.Module):
                  attn_type: str, nclass: int, attn_kwargs: dict):
         super().__init__()
 
-        #self.node_emb = Embedding(28, channels - pe_dim)
-        #self.pe_lin = Linear(20, pe_dim)
+        self.node_emb = Embedding(28, channels - pe_dim)
+        self.pe_lin = Linear(20, pe_dim)
         self.pe_norm = BatchNorm1d(20)
         #self.edge_emb = Embedding(4, channels)
 
@@ -45,8 +45,8 @@ class GPS(torch.nn.Module):
             redraw_interval=1000 if attn_type == 'performer' else None)
 
     def forward(self, x, pe, edge_index, edge_attr, batch=None):
-        x_pe = self.pe_norm(pe)
-        #x = torch.cat((self.node_emb(x.squeeze(-1)), self.pe_lin(x_pe)), 1)
+        x_pe = self.pe_norm(pe[0])
+        x = torch.cat((self.node_emb(x.squeeze(-1)), self.pe_lin(x_pe)), 1)
         #edge_attr = self.edge_emb(edge_attr)
 
         for conv in self.convs:
