@@ -89,9 +89,9 @@ def train(epoch):
         end = time.time()
         compute = end - start
         start = time.time()
-        if(gnn == 'gat'):
+        if(args.gnn == 'gat'):
             output = model(all_graphs, train_features, time_steps, adj)
-        elif(gnn == 'transformer'):
+        elif(args.gnn == 'transformer'):
             pe = []
             pe_embedding = T(is_undirected=True)
             for k in range(time_steps):
@@ -210,10 +210,10 @@ nheads = args.nheads
 print("Weight decay: {}".format(weight_decay))
 print("Learning rate: {}".format(l_r))
 
-if(gnn == 'gat'):
+if(args.gnn == 'gat'):
     model = GatClassification(nfeat=users_dim, nhid_graph=args.nhid_graph, nhid=args.nhid, nclass=2, dropout=dropout,
                 nheads=nheads, gnn_name=args.gnn).to(DEVICE)
-elif(gnn == 'transformer'):
+elif(args.gnn == 'transformer'):
     attn_kwargs = {'dropout': 0.5}
     model = GPS(channels=users_dim, pe_dim=8, num_layers=2, attn_type=args.attn_type, nclass=2, attn_kwargs=attn_kwargs).to(DEVICE)
 else:

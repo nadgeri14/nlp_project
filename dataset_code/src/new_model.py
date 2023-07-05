@@ -14,7 +14,7 @@ from torch_geometric.nn.attention import PerformerAttention
 
 class GPS(torch.nn.Module):
     def __init__(self, channels: int, pe_dim: int, num_layers: int,
-                 attn_type: str, nclass: int, attn_kwargs: Dict[str, Any]):
+                 attn_type: str, nclass: int, attn_kwargs: dict[str, Any]):
         super().__init__()
 
         #self.node_emb = Embedding(28, channels - pe_dim)
@@ -57,7 +57,7 @@ class GPS(torch.nn.Module):
 
 class RedrawProjection:
     def __init__(self, model: torch.nn.Module,
-                 redraw_interval: Optional[int] = None):
+                 redraw_interval: None):
         self.model = model
         self.redraw_interval = redraw_interval
         self.num_last_redraw = 0
