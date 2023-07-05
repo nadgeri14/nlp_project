@@ -9,6 +9,8 @@ import gzip
 import numpy as np
 import torch.optim as optim
 from dataset.reddit_user_dataset import RedditUserDataset
+import torch_geometric.transforms as T
+from torch_geometric.data import Data
 
 from argparse import ArgumentParser
 import datetime
@@ -87,7 +89,18 @@ def train(epoch):
         end = time.time()
         compute = end - start
         start = time.time()
-        output = model(all_graphs, train_features, time_steps, adj)
+        if(gnn == 'gat'):
+            output = model(all_graphs, train_features, time_steps, adj)
+        elif(gnn == 'transformer'):
+            pe = []
+            pe_embedding = T(is_undirected=True)
+            for k in range(time_steps):
+                data = Data(x=train_features[k], edge_index=all_graphs[k])
+                pe.append[pe_embedding(data)]
+            output = model(train_features, pe, all_graphs, time_steps, batch)
+        else:
+            raise Exception("Select right model")
+
         #loss_train = F.nll_loss(output, train_label)
         loss_train = loss_fn(output, train_label,  get_samples_per_class(train_label))
         acc_train.append(accuracy(output, train_label).detach().cpu().numpy())
@@ -200,9 +213,11 @@ print("Learning rate: {}".format(l_r))
 if(gnn == 'gat'):
     model = GatClassification(nfeat=users_dim, nhid_graph=args.nhid_graph, nhid=args.nhid, nclass=2, dropout=dropout,
                 nheads=nheads, gnn_name=args.gnn).to(DEVICE)
-elif(gnn = 'transformer'):
+elif(gnn == 'transformer'):
     attn_kwargs = {'dropout': 0.5}
     model = GPS(channels=users_dim, pe_dim=8, num_layers=2, attn_type=args.attn_type, nclass=2, attn_kwargs=attn_kwargs).to(DEVICE)
+else:
+    raise Exception("Select the right model")
 
 
 optimizer = optim.Adam(model.parameters(),
