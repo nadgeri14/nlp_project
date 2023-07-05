@@ -47,8 +47,8 @@ class GPS(torch.nn.Module):
             redraw_interval=1000 if attn_type == 'performer' else None)
 
     def forward(self, x, pe, edge_index, edge_attr, batch=None):
-        import pdb
-        pdb.set_trace()
+        #import pdb
+        #pdb.set_trace()
         x_pe = self.pe_norm(pe[0].pe)
         x = torch.cat((x.squeeze(0), self.pe_lin(x_pe)), 1)
         edge_attr = torch.ones(pe[0].num_edges, dtype=torch.int, device=x.device)
