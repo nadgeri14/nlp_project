@@ -54,7 +54,7 @@ class GPS(torch.nn.Module):
         edge_attr = torch.ones(pe[0].num_edges, dtype=torch.int, device=x.device)
         edge_attr = self.edge_emb(edge_attr)
         for conv in self.convs:
-            x = conv(x, edge_index[0], batch)
+            x = conv(x, edge_index[0], batch, edge_attr=edge_attr)
         x = global_add_pool(x, batch)
         return self.mlp(x)
 
