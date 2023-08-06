@@ -1,21 +1,23 @@
-# FACTOID: A New Dataset for Identifying Misinformation Spreaders and Political Bias
+# NLP Project (group 13)
 
-## 1 Overview
+### Members: Abhishek Nadgeri, Ulvi Shukurzade
 
-FACTOID: a user-level **FAC**tuality and p**O**litical b**I**as **D**ataset, that contains a set of 4,150 news-spreading users with 3.3M Reddit posts in discussions on contemporary political topics, covering the time period from January 2020 to April 2021 on individual user level. You can find the dataset [here](https://drive.google.com/drive/folders/1MB6zsrhNerZQlLFBdjJ8sDbvXa2NcELZ).
+## 1 Dataset overview
+The dataset FACTOID: is a user-level **FAC**tuality and p**O**litical b**I**as **D**ataset, that contains a set of 4,150 news-spreading users with 3.3M Reddit posts in discussions on contemporary political topics, covering the time period from January 2020 to April 2021 on individual user level.
 
 ## 2 Setup
 
 ### 2.1 Environment Setup
 
-* With conda
-  
-    ```conda env export > environment.yml```
-* With pip
+* Data preprocessing support libraries
 
     ```pip install -r requirements.txt```
 
-## 3 Usage
+* Model library ([Pytorch geometric](https://github.com/pyg-team/pytorch_geometric#nightly-and-master))
+
+    ```pip install pyg-nightly```
+
+## 3 Pre-Process Data
 
 ### 3.1 Reddit Posts Crawling
 
@@ -37,12 +39,9 @@ FACTOID: a user-level **FAC**tuality and p**O**litical b**I**as **D**ataset, tha
    python user_embeddings_per_month.py --vocabs_dir='../data/user_vocabs_per_month' --base_dataset='../data/reddit_dataset/factoid_dataset.gzip'
   ```
 
-  * [User2Vec](https://github.com/samiroid/usr2vec)
-  * [Psycho Linguistic Features](https://github.com/caisa-lab/FACTOID-dataset/tree/main/src/psycho_ling_embeddings)
-
 ### 3.3 Generate Graphs and Samples
 
-  To generate graph samples, example script. Change the parameters based on the embeddings you want to use. The argument `embed_type`  takes the following values `['bert', 'usr2vec', 'usr2vec_rand', 'usr2vec_liwc', 'liwc']`
+  To generate graph samples, example script.
 
   ```
   python source_graph_generation.py \
@@ -72,7 +71,7 @@ FACTOID: a user-level **FAC**tuality and p**O**litical b**I**as **D**ataset, tha
 
 ### 3.4 Training Model
 
-  After training, validation, test samples are created, run the model using the following
+  After training, validation, test samples are created, run the model using the following. Change the parameters based on the model you want to use. The argument `gnn`  takes the following values `['gat', 'transformer']`
 
   ```
   python training_graph.py --patience=40 \
