@@ -89,5 +89,6 @@ The dataset FACTOID: is a user-level **FAC**tuality and p**O**litical b**I**as *
   --gnn='gat' |& tee ../logs/graph_model_main.txt
   ```
 ## 4. Acknowledgment
-The code is built on the following works - 
+The code is built on the following work - 
 * [FACTOID](https://github.com/caisa-lab/FACTOID-dataset/tree/main)
+* [Temporal Graph Analysis of Misinformation Spreaders in Social Media](https://github.com/caisa-lab/textgraph22-temporal-misinformation-spreaders)
