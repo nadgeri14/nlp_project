@@ -2,10 +2,10 @@
 
 ### Members: Abhishek Nadgeri, Ulvi Shukurzade
 
-## 1 Dataset overview
+## 1. Dataset overview
 The dataset FACTOID: is a user-level **FAC**tuality and p**O**litical b**I**as **D**ataset, that contains a set of 4,150 news-spreading users with 3.3M Reddit posts in discussions on contemporary political topics, covering the time period from January 2020 to April 2021 on individual user level.
 
-## 2 Setup
+## 2. Setup
 
 ### 2.1 Environment Setup
 
@@ -17,7 +17,7 @@ The dataset FACTOID: is a user-level **FAC**tuality and p**O**litical b**I**as *
 
     ```pip install pyg-nightly```
 
-## 3 Pre-Process Data
+## 3. Pre-Process Data
 
 ### 3.1 Reddit Posts Crawling
 
@@ -88,3 +88,6 @@ The dataset FACTOID: is a user-level **FAC**tuality and p**O**litical b**I**as *
   --users_dim=768 \
   --gnn='gat' |& tee ../logs/graph_model_main.txt
   ```
+## 4. Acknowledgment
+The code is built on the following works - 
+* [FACTOID](https://github.com/caisa-lab/FACTOID-dataset/tree/main)
